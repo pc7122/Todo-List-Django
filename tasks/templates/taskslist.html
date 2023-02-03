@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TODO App</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" />
+</head>
+
+<body>
+  <header>
+    <div class="container pt-4">
+      <div class="d-flex justify-content-between align-items-center">
+        <h3>Django Todo List</h3>
+
+        <div class="d-flex align-items-center">
+          <h5>Username</h5>
+          <span class="mx-3 pb-2">|</span>
+          <a href="{% url 'logout' %}" class="btn btn-dark btn-sm">Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="pt-4">
+
+    <form action="{% url 'add' %}" method="post">
+      {% csrf_token %}
+      <div class="mt-5 d-flex justify-content-center align-items-center">
+        <input type="text" name="title" placeholder="Enter Title" class="form-control mx-2 w-25" id="title" />
+        <input type="submit" value="Add Task" class="btn btn-info" id="add-task" />
+      </div>
+    </form>
+
+    <table class="mt-5 mx-auto w-50" id="table">
+      <tr>
+        <th>Title</th>
+        <th>Complete</th>
+        <th>Created</th>
+        <th colspan="2">Action</th>
+      </tr>
+
+      {% for task in tasks %}
+      <tr>
+        <td>{{ task.title }}</td>
+        {% if task.complete == False %}
+        <td>Not Completed</td>
+        {% else %}
+        <td>Completed</td>
+        {% endif %}
+        <td>{{ task.created }}</td>
+        <td>
+          <a href="update/{{task.id}}/">
+            <button type="button" class="btn btn-sm btn-warning" data-id="{{ todo.id }}" id="update-task">
+              Update
+            </button>
+          </a>
+        </td>
+        <td>
+          <a href="delete/{{task.id}}/">
+            <button type="button" class="btn btn-sm btn-danger" data-id="{{ todo.id }}" id="delete-task">
+              Delete
+            </button>
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
